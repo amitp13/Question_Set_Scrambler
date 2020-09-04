@@ -1,12 +1,12 @@
 from scrambler import scrambler
 
 #local file path for input file
-source = r'C:\Users\phadk\Desktop\Work\projects\set_scrambler\data.docx'
+source = r'C:\inputdata.docx'
 
 #filename to save as
 save_as = "output"
 
 #local file path to save file 
-destination = r"C:\Users\phadk\Desktop\Work\projects\set_scrambler"
+destination = r"C:\"
 
 scrambler(source,save_as,destination)
