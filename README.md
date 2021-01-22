@@ -8,9 +8,13 @@ Note:
 
 The code is written with a teaching department's specific format. To make this work use the following format.
 
-**1) Ask your questions here.
-**A) Option1
-**B) Option2
-**C) Option3
-**Answer:  C
+**1) Ask your questions here.**
+
+**A) Option1**
+
+**B) Option2**
+
+**C) Option3**
+
+**Answer:  C**
 
