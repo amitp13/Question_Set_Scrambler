@@ -1,37 +1,51 @@
-def scrambler(source,save_as, destination):
-    import docx
-    import random
-    filename = source.split("\\")[-1]
-    doc = docx.Document(filename)
-    
-    keys = []
-    text = []
-    fulltext = []
-    
-    for para in doc.paragraphs:
-        fulltext.append(para.text)
-    fulltext = list(filter(None,fulltext))
-    
-    for i, v in enumerate(fulltext):
-        if v[0].isdigit():
-            keys.append(i)
-    keys.append(len(fulltext))
-    
-    for i,v in enumerate(keys):
-        current_item = v
-        next_item = keys[(i + 1) % len(keys)]
-        joined = "\n".join(fulltext[current_item:next_item])
-        text.append(joined)
-    
-    text = list(filter(None,text))
-    random.shuffle(text)
-    str1 = destination
-    str2 = "{}.docx".format(save_as)
-    
-    destination =  str1 + '\\' + str2
-    doc_out = docx.Document()
-    for item in text:
-        doc_out.add_paragraph(item)
-        doc_out.save(destination)
+#!/usr/bin/env python
+# coding: utf-8
 
-    return "File written to directory"
+# In[1]:
+
+
+from docx import *
+import re
+import json
+import random
+import string
+
+# In[ ]:
+
+def scramble(file,outfile):
+    document = Document(file)  #Change filename here
+    upper_limits = []
+    lower_limits = []
+    limits = []
+    sentences = []
+    out = []
+    page_one = []
+    
+    for idx, val in enumerate(document.paragraphs):
+        sentences.append(val.text)
+        if(re.search('^\d{1,2}\)', val.text)):
+            ulimit = idx
+            upper_limits.append(ulimit)
+        elif(val.text.startswith('Answer:')):
+            llimit = idx
+            llimit = llimit + 1
+            lower_limits.append(llimit)
+        
+    limits = list(zip(upper_limits, lower_limits))
+   
+    for l in limits:
+        joined = "\n".join(sentences[l[0]:l[1]])
+        out.append(joined)
+        
+    random.shuffle(out)
+    for idx,p in enumerate(out):
+        new_str = re.sub('(\d+)',str(idx+1),p)
+        out[idx] = new_str
+    
+    for p in out:
+        document.add_paragraph(p)
+        document.save(outfile)
+
+input_file = "Input file Path"
+output_file = "Output File Path"
+scramble(input_file,output_file)
